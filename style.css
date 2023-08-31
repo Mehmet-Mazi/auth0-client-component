@@ -1,0 +1,64 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.verticle-line{
+    height: 2em;
+    width: 1px;
+    background-color: rgb(50, 110, 223);
+}
+
+.small{
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.circle{
+    height: 3em;
+    width: 3em;
+    border-radius: 50%;
+    background-color: black;
+}
+
+.login-container{
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 1em;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(50, 110, 223);
+    border: 1px solid rgb(50, 110, 223);
+    border-radius: 5px;
+    padding: 0.3em 1em;
+}
+
+.login-container a:hover{
+    background-color: rgb(50, 110, 223);
+    color: #fff;
+}
+
+.loggedin-container{
+    display: flex;
+    border: 1px solid rgb(50, 110, 223);
+    gap: 1em;
+    padding: 0.3em 1em;
+    border-radius: 5px;
+}
+
+.view-profile{
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+    border: none;
+    padding: 0;
+}
+
+.view-profile:hover{
+    border-bottom: 1px solid rgb(50, 110, 223);
+    border-radius: 0;
+}
