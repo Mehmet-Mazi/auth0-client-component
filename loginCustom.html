@@ -6,21 +6,9 @@
     <title>Document</title>
     <script src="./auth-elem.js" type=module></script>
 
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
+    <link rel="stylesheet" href="main-style.css">
+    
 
-        nav auth-element{
-            float: right;
-            margin-right: 5em;
-            margin-top: 1em;
-        }
-
-    </style>
 </head>
 <body>
     <nav>
@@ -29,9 +17,9 @@
 
     <template id="unauthenticated">
         <div class="login-container">
-            <a href="#login" id="login">Login</a>
+            <a href="#login" id="login" class="center">Login</a>
             <div class="verticle-line"></div>
-            <a href="#signup" id="sign-up">Sign Up</a>
+            <a href="#signup" id="sign-up" class="center">Sign Up</a>
         </div>
     </template>
     

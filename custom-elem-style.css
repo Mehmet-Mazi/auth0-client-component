@@ -1,3 +1,5 @@
+/* Global styling */
+
 *{
     margin: 0;
     padding: 0;
@@ -15,12 +17,20 @@
     font-weight: bold;
 }
 
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .circle{
     height: 3em;
     width: 3em;
     border-radius: 50%;
     background-color: black;
 }
+
+/* logged out view */
 
 .login-container{
     display: flex;
@@ -34,13 +44,16 @@ a{
     color: rgb(50, 110, 223);
     border: 1px solid rgb(50, 110, 223);
     border-radius: 5px;
-    padding: 0.3em 1em;
+    width: 5em;
+    height: 2em;
 }
 
 .login-container a:hover{
     background-color: rgb(50, 110, 223);
     color: #fff;
 }
+
+/* Logged in view */
 
 .loggedin-container{
     display: flex;
@@ -52,13 +65,15 @@ a{
 
 .view-profile{
     display: flex;
+    width: 100%;
     align-items: center;
     gap: 0.2em;
     border: none;
-    padding: 0;
+    font-size: 0.8em;
 }
 
 .view-profile:hover{
     border-bottom: 1px solid rgb(50, 110, 223);
     border-radius: 0;
 }
+
