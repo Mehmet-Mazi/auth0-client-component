@@ -1,0 +1,22 @@
+{
+  "name": "auth-custom-elem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "auth-elem.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UP2002348/auth0-custom-element.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UP2002348/auth0-custom-element/issues"
+  },
+  "homepage": "https://github.com/UP2002348/auth0-custom-element#readme",
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^2.1.2"
+  }
+}
