@@ -24,11 +24,17 @@
     </template>
     
     <template id="authenticated">
-        <div class="loggedin-container">
-            <div class="text">
+        <div class="logged-in-container">
+            <div class="user-options">
                 <p id="username"></p>
-                <!-- Change the anchor tag to be <details> -->
-                <a href="#" class="view-profile">view profile <span class="small">&#8744;</span></a>
+                <div class="container">
+                    <details class="view-profile-container">
+                        <summary class="view-profile">Account<span class="small">&#8744;</span></summary>
+                        <a href="#">View Profile</a>
+                        <a href="#">Subscriptions</a>
+                        <a href="#" class="logout">Logout</a>
+                    </details>
+                </div>
             </div>
             <div class="circle"></div>
         </div>
