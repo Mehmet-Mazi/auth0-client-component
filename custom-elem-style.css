@@ -31,8 +31,9 @@
     height: 3em;
     width: 3em;
     border-radius: 50%;
-    background-color: black;
-    align-self: baseline;
+    /* background-color: black; */
+    /* align-self: baseline; */
+    border: 1px solid red;
 }
 
 /* logged out view */
@@ -61,28 +62,35 @@ a{
 /* Logged in view */
 
 .logged-in-container{
-    display: flex;
     border: 1px solid rgb(50, 110, 223);
     gap: 1em;
     padding: 0.3em 1em;
     border-radius: 5px;
-    /* align-items: center; */
+    display: flex;
+    align-items: center;
+    height: 5em;
 }
 
 .user-options{
-    border: 1px solid orange;
-    /* height: 100%; */
+    /* border: 1px solid orange; */
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: stretch;
+    justify-content: center;
+    
 }
 
-.container{
+
+#username{
+    height: 25%;
     /* border: 1px solid green; */
-    /* height: 100%;    */
+    display: flex;
+    align-items: center; 
 }
 
 .view-profile-container{
+    /* border: 1px solid black; */
+    height: 25%;
     font-size: 0.8em;
     color: rgb(50, 110, 223);
 }
@@ -93,11 +101,25 @@ a{
     align-items: center;
     gap: 0.2em;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .view-profile:hover{
     border-bottom: 1px solid rgb(50, 110, 223);
-    border-radius: 0;
+    /* border-radius: 0; */
+}
+
+.view-profile-container[open] .view-profile{
+    border-bottom: 1px solid rgb(50, 110, 223);
+}
+
+.view-profile-container div{
+    background-color: #fff;
+    /* border: 1px solid rgb(50, 110, 223); */
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 1);
+    border-radius: 5px;
+    /* margin-top: 1em; */
+    padding: 5px;
 }
 
 .view-profile-container a{
@@ -107,15 +129,18 @@ a{
     color: #565656;
     font-size: 0.9em;
     transition: opacity 100ms,font-weight 100ms;
+    /* background-color: #ffffff;
+    border: 1px solid black; */
 }
 
 .view-profile-container a:hover{
     font-weight: bold;
     opacity: 1;
+    background-color: #ccc;
 }
 
 .view-profile-container .logout{
-    font-weight: bold;
+    /* font-weight: bold; */
     color: rgb(255, 43, 43);
     opacity: 0.6;
 }

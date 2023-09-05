@@ -5,7 +5,7 @@ class AuthElem extends HTMLElement{
         super();
         let loggedIn = true;
         let username = "Mehmet Mazi";
-        const shadow = this.attachShadow({mode:"closed"});
+        const shadow = this.attachShadow({mode:"open"});
         const link = document.createElement('link');
         link.setAttribute('href', "custom-elem-style.css");
         link.setAttribute('rel', 'stylesheet');
@@ -21,6 +21,7 @@ class AuthElem extends HTMLElement{
             cloned.querySelector("#username").textContent = username;
             shadow.append(cloned);
         }
+       
     }
 }
 

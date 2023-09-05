@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./auth-elem.js" type=module></script>
-    
+    <script id="script" async src="./auth-elem.js" type=module></script>
     <link rel="stylesheet" href="main-style.css">
-    
 
 </head>
 <body>
@@ -27,14 +25,14 @@
         <div class="logged-in-container">
             <div class="user-options">
                 <p id="username"></p>
-                <div class="container">
-                    <details class="view-profile-container">
-                        <summary class="view-profile">Account<span class="small">&#8744;</span></summary>
+                <details class="view-profile-container">
+                    <summary class="view-profile">Account<span class="small">&#8744;</span></summary>
+                    <div>
                         <a href="#">View Profile</a>
                         <a href="#">Subscriptions</a>
                         <a href="#" class="logout">Logout</a>
-                    </details>
-                </div>
+                    </div>
+                </details>
             </div>
             <div class="circle"></div>
         </div>
