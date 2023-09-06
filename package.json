@@ -1,9 +1,11 @@
 {
   "name": "auth-custom-elem",
   "version": "1.0.0",
-  "description": "",
   "main": "auth-elem.js",
+  "type": "module",
   "scripts": {
+    "start": "node server/srv.js",
+    "dev": "nodemon server/srv.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +19,12 @@
   },
   "homepage": "https://github.com/UP2002348/auth0-custom-element#readme",
   "dependencies": {
-    "@auth0/auth0-spa-js": "^2.1.2"
+    "@auth0/auth0-spa-js": "^2.1.2",
+    "express": "^4.18.2"
+  },
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
