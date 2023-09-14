@@ -1,4 +1,6 @@
-class AuthElem extends HTMLElement{
+import Render from './Render.js';
+
+class AuthElem extends Render{
     static get observedAttributes() { return ['auth0Client', 'username', 'random']; } // Doesn't work for object properties
 
     constructor(){
@@ -6,7 +8,9 @@ class AuthElem extends HTMLElement{
         this.auth0Client = null;
         this.loggedIn = false;
         this.username = "Mehmet Mazi";
+        // console.log(this)
         this.shadow = this.attachShadow({mode:"open"});
+        this.view();
     }
 
     async view(){
@@ -21,6 +25,7 @@ class AuthElem extends HTMLElement{
         this.shadow.append(link);
         
         const authentication = await this.getLoggedState();
+        console.log(authentication)
         if (!(authentication)){
             const unauthenticated = document.querySelector("#unauthenticated");
             const cloned = unauthenticated.content.cloneNode(true);
@@ -43,6 +48,7 @@ class AuthElem extends HTMLElement{
     }
     
     async getLoggedState(){
+        console.log(this.auth0Client.isAuthenticated());
         return await this.auth0Client.isAuthenticated();
     }
 

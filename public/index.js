@@ -1,4 +1,4 @@
-
+// import util from 'util';
 
 async function init(){
     const authElem = document.querySelector('auth-element');
@@ -6,8 +6,9 @@ async function init(){
     // authElem.toggleLoggedState();
     // console.log(authElem.getLoggedState());
     console.log(authElem.shadowRoot.querySelector('#sign-up')); // To get items within the shadowDOM
-    await authElem.configureClient();
-    authElem.changeUsername("Bob");
+    // await authElem.configureClient();
+    // console.log(util.types.isProxy(authElem));
+    // authElem.changeUsername("Bob");
     
 }
 
