@@ -1,28 +1,28 @@
-import Render from './Render.js';
-
-class AuthElem extends Render{
-    static get observedAttributes() { return ['auth0Client', 'username', 'random']; } // Doesn't work for object properties
+export class AuthElem extends HTMLElement{
+    // static get observedAttributes() { return ['auth0Client', 'username', 'random']; } // Doesn't work for object properties
 
     constructor(){
         super();
         this.auth0Client = null;
-        this.loggedIn = false;
         this.username = "Mehmet Mazi";
-        // console.log(this)
         this.shadow = this.attachShadow({mode:"open"});
+    }
+
+    setState(prop, value){
+        prop = value;
         this.view();
     }
 
     async view(){
 
         console.log("Updated UI");
-        
-        this.shadow.textContent = '';
+        console.log(this.name)
+        this.shadowRoot.textContent = '';
         const link = document.createElement('link');
         link.setAttribute('href', "custom-elem-style.css");
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
-        this.shadow.append(link);
+        this.shadowRoot.append(link);
         
         const authentication = await this.getLoggedState();
         console.log(authentication)
@@ -37,18 +37,9 @@ class AuthElem extends Render{
             this.shadow.append(cloned);
         }
     }
-
-    toggleLoggedState(){
-        this.loggedIn = !this.loggedIn;
-        this.view()
-    }
-
-    changeUsername(name){
-        this.username = name;
-    }
     
     async getLoggedState(){
-        console.log(this.auth0Client.isAuthenticated());
+        console.log(await this.auth0Client.isAuthenticated());
         return await this.auth0Client.isAuthenticated();
     }
 
@@ -71,9 +62,6 @@ class AuthElem extends Render{
             clientId: config.clientId
         })
         console.log(this.auth0Client);
-    }
-    
-    attributeChangedCallback(name, oldValue, newValue){
         this.view()
     }
     

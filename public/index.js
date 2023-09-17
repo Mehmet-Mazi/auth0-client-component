@@ -1,14 +1,9 @@
-// import util from 'util';
+import { AuthElem } from "./auth-elem.js";
 
 async function init(){
     const authElem = document.querySelector('auth-element');
-    // console.log(authElem.getLoggedState());
-    // authElem.toggleLoggedState();
-    // console.log(authElem.getLoggedState());
-    console.log(authElem.shadowRoot.querySelector('#sign-up')); // To get items within the shadowDOM
-    // await authElem.configureClient();
-    // console.log(util.types.isProxy(authElem));
-    // authElem.changeUsername("Bob");
+    // console.log(authElem.shadowRoot.querySelector('#sign-up')); // To get items within the shadowDOM
+    await authElem.configureClient();
     
 }
 
