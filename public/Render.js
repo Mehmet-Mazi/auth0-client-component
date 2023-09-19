@@ -1,5 +1,34 @@
 // Implementation failed. More R&D needed for implementation. TO-DO
 
+
+export class Component extends HTMLElement{
+    constructor(){
+        super()
+        // console.log(this.state)
+        let self = this;
+        this.state = new Proxy({}, {
+            get(t, p, r){
+                console.log("In proxy get component");
+                return Reflect.get(...arguments);
+            },
+            set(obj, prop, newVal){
+                self.view();
+                Reflect.set(...arguments)
+                return true;
+            }
+        })
+    }
+    
+    states(){
+        console.log(this.state)
+        this.props = this.state;
+    }
+
+    view(){
+        console.log("Over ride this method");
+    }
+}
+
 export class Render extends HTMLElement{
     constructor(){
         super();

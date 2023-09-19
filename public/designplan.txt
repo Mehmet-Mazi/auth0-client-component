@@ -1,0 +1,13 @@
+CustomHTMLElement (auth0) Extends HTMLElement
+
+=========================
+
+RenderElement object does not extend anything
+
+=========================
+
+in CustomHTMLElement instantiate RenderElement
+
+RenderElement has a proxy property with the properties the CustomHTMLElement has
+
+use the 
