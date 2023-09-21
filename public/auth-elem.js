@@ -8,6 +8,8 @@ export class AuthElem extends Component{
         this.state.auth0Client = null;
         this.shadow = this.attachShadow({mode:"open"}); // Sets and returns this.shadowRoot
         // this.useState = new state(this, this.auth0Client); // Pass this so  that we can call the render method in this class
+        this.unauthenticatedTemplate = document.querySelector('#unauthenticated');
+        this.authenticated = document.querySelector('#authenticated');
         this.state.location = 'london'
     }
 
@@ -23,12 +25,14 @@ export class AuthElem extends Component{
         
         const authentication = await this.getLoggedState();
         if (!(authentication)){
-            const unauthenticated = document.querySelector("#unauthenticated");
-            const cloned = unauthenticated.content.cloneNode(true);
+            const cloned = this.unauthenticatedTemplate.content.cloneNode(true);
             this.shadow.append(cloned);
+            this.shadow.querySelector('#login').addEventListener("click", async () => {
+                console.log('click')
+                this.login()});
+            console.log(this.shadow.querySelector('#login'));
         } else{
-            const authenticated = document.querySelector('#authenticated');
-            const cloned = authenticated.content.cloneNode(true);
+            const cloned = this.authenticatedTemplate.content.cloneNode(true);
             cloned.querySelector("#username").textContent = this.username;
             this.shadow.append(cloned);
         }
@@ -57,9 +61,18 @@ export class AuthElem extends Component{
         // domain/application
         this.state.auth0Client = await createAuth0Client({
             domain: config.domain,
-            clientId: config.clientId
+            client_id: config.clientId
         })
         // console.log(this.state.auth0Client);
+    }
+
+    async login(){
+        console.log(this.state.auth0Client)
+        await this.state.auth0Client.loginWithRedirect({
+            authorizationParams: {
+              redirect_uri: window.location.origin
+            }
+          });
     }
     
 }
