@@ -8,20 +8,15 @@ export class Component extends HTMLElement{
         let self = this;
         this.state = new Proxy({}, {
             get(t, p, r){
-                console.log("In proxy get component");
                 return Reflect.get(...arguments);
             },
             set(obj, prop, newVal){
+                // console.log("In proxy set component");
+                Reflect.set(...arguments);
                 self.view();
-                Reflect.set(...arguments)
                 return true;
             }
         })
-    }
-    
-    states(){
-        console.log(this.state)
-        this.props = this.state;
     }
 
     view(){
