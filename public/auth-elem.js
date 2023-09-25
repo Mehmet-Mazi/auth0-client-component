@@ -8,11 +8,36 @@ export class AuthElem extends Component{
         this.state.auth0Client = null;
         this.shadow = this.attachShadow({mode:"open"}); // Sets and returns this.shadowRoot
         // this.useState = new state(this, this.auth0Client); // Pass this so  that we can call the render method in this class
-        this.unauthenticatedTemplate = document.querySelector('#unauthenticated');
-        this.authenticated = document.querySelector('#authenticated');
-        this.state.location = 'london'
+        this.unauthenticatedTag = document.querySelector('#unauthenticated');
+        this.authenticatedTag = document.querySelector('#authenticated');
+        
+        this.setup();
+
     }
 
+    async setup(){
+        await this.configureClient();
+
+        const isAuthenticated = await this.state.auth0Client.isAuthenticated();
+
+        if (isAuthenticated) {
+            // show the gated content
+            return;
+        }
+
+        // NEW - check for the code and state parameters
+        const query = window.location.search;
+        if (query.includes("code=") && query.includes("state=")) {
+
+            // Process the login state
+            await this.state.auth0Client.handleRedirectCallback();
+
+            // Use replaceState to redirect the user away and remove the querystring parameters
+            window.history.replaceState({}, document.title, "/");
+        }
+        
+    }
+        
     async view(){
         if (!this.shadow) return null;
         // console.log("Updated UI", this.shadow);
@@ -23,22 +48,21 @@ export class AuthElem extends Component{
         link.setAttribute('type', 'text/css');
         this.shadow.append(link);
         
-        const authentication = await this.getLoggedState();
-        if (!(authentication)){
-            const cloned = this.unauthenticatedTemplate.content.cloneNode(true);
+        const isAuthenticated = await this.isAuthenticated();
+        if (!(isAuthenticated)){
+            const cloned = this.unauthenticatedTag.content.cloneNode(true);
             this.shadow.append(cloned);
             this.shadow.querySelector('#login').addEventListener("click", async () => {
-                console.log('click')
                 this.login()});
             console.log(this.shadow.querySelector('#login'));
         } else{
-            const cloned = this.authenticatedTemplate.content.cloneNode(true);
+            const cloned = this.authenticatedTag.content.cloneNode(true);
             cloned.querySelector("#username").textContent = this.username;
             this.shadow.append(cloned);
         }
     }
     
-    async getLoggedState(){
+    async isAuthenticated(){
         if (this.state.auth0Client){
             return await this.state.auth0Client.isAuthenticated();
         }
@@ -67,7 +91,6 @@ export class AuthElem extends Component{
     }
 
     async login(){
-        console.log(this.state.auth0Client)
         await this.state.auth0Client.loginWithRedirect({
             authorizationParams: {
               redirect_uri: window.location.origin
