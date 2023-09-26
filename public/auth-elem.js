@@ -19,9 +19,10 @@ export class AuthElem extends Component{
         await this.configureClient();
 
         const isAuthenticated = await this.state.auth0Client.isAuthenticated();
-
+        console.log(isAuthenticated)
         if (isAuthenticated) {
             // show the gated content
+            this.view()
             return;
         }
 
@@ -59,6 +60,8 @@ export class AuthElem extends Component{
             const cloned = this.authenticatedTag.content.cloneNode(true);
             cloned.querySelector("#username").textContent = this.username;
             this.shadow.append(cloned);
+            this.shadow.querySelector('.logout').addEventListener("click", async () => {
+                this.logout()});
         }
     }
     
@@ -91,9 +94,17 @@ export class AuthElem extends Component{
     }
 
     async login(){
-        await this.state.auth0Client.loginWithRedirect({
-            authorizationParams: {
-              redirect_uri: window.location.origin
+        let authParams = {
+                redirect_uri: window.location.origin
+        }
+        // authParams = JSON.stringify(authParams);
+        await this.state.auth0Client.loginWithRedirect(authParams);
+    }
+
+    async logout(){
+        this.state.auth0Client.logout({
+            logoutParams: {
+              returnTo: window.location.origin
             }
           });
     }
