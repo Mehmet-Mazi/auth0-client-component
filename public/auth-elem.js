@@ -11,58 +11,48 @@ export class AuthElem extends Component{
         this.unauthenticatedTag = document.querySelector('#unauthenticated');
         this.authenticatedTag = document.querySelector('#authenticated');
         
-        this.setup();
-
+        // receive a callback that says something the proxy can detect
+        
+        // this.setup()
+        this.profile;
     }
 
+    test(){
+        console.log('test')
+        console.log(this.testVar);
+    }
+    
     async setup(){
+        console.log('In setup')
         await this.configureClient();
-
         const isAuthenticated = await this.state.auth0Client.isAuthenticated();
-        console.log(isAuthenticated)
+
         if (isAuthenticated) {
-            // show the gated content
-            this.view()
-            return;
+            console.log("authenticated content")
+            document.querySelector('#gated-content').classList.remove("hidden");
+            document.querySelector('#ipt-access-token').textContent = await this.state.auth0Client.getTokenSilently();
+            document.querySelector('#ipt-user-profile').textContent = JSON.stringify(await this.state.auth0Client.getUser());
+        } else{
+            document.querySelector('#gated-content').classList.add('hidden');
         }
 
-        // NEW - check for the code and state parameters
         const query = window.location.search;
         if (query.includes("code=") && query.includes("state=")) {
 
             // Process the login state
             await this.state.auth0Client.handleRedirectCallback();
 
-            // Use replaceState to redirect the user away and remove the querystring parameters
+            this.view()
+            // Use replaceState to remove the querystring parameters and so that if the page refreshes for any reason it doesn't request to parse the state and code again
             window.history.replaceState({}, document.title, "/");
         }
-        
+
+        this.profile = await this.getUserData();
+        console.log(this.profile)
     }
         
-    async view(){
-        if (!this.shadow) return null;
-        // console.log("Updated UI", this.shadow);
-        this.shadow.textContent = '';
-        const link = document.createElement('link');
-        link.setAttribute('href', "custom-elem-style.css");
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('type', 'text/css');
-        this.shadow.append(link);
-        
-        const isAuthenticated = await this.isAuthenticated();
-        if (!(isAuthenticated)){
-            const cloned = this.unauthenticatedTag.content.cloneNode(true);
-            this.shadow.append(cloned);
-            this.shadow.querySelector('#login').addEventListener("click", async () => {
-                this.login()});
-            console.log(this.shadow.querySelector('#login'));
-        } else{
-            const cloned = this.authenticatedTag.content.cloneNode(true);
-            cloned.querySelector("#username").textContent = this.username;
-            this.shadow.append(cloned);
-            this.shadow.querySelector('.logout').addEventListener("click", async () => {
-                this.logout()});
-        }
+    async getUserData(){
+        return await this.state.auth0Client.getUser();
     }
     
     async isAuthenticated(){
@@ -90,14 +80,13 @@ export class AuthElem extends Component{
             domain: config.domain,
             client_id: config.clientId
         })
-        // console.log(this.state.auth0Client);
+        console.log(this.state.auth0Client);
     }
 
     async login(){
         let authParams = {
                 redirect_uri: window.location.origin
         }
-        // authParams = JSON.stringify(authParams);
         await this.state.auth0Client.loginWithRedirect(authParams);
     }
 
@@ -107,8 +96,37 @@ export class AuthElem extends Component{
               returnTo: window.location.origin
             }
           });
+        }
+        
+    async view(){
+        if (!this.shadow) return null;
+        // console.log("Updated UI", this.shadow);
+        this.shadow.textContent = '';
+        const link = document.createElement('link');
+        link.setAttribute('href', "custom-elem-style.css");
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        this.shadow.append(link);
+        
+        const isAuthenticated = await this.isAuthenticated();
+        if (!(isAuthenticated)){
+            const cloned = this.unauthenticatedTag.content.cloneNode(true);
+            this.shadow.append(cloned);
+            this.shadow.querySelector('#login').addEventListener("click", async () => {
+                this.login()});
+            console.log(this.shadow.querySelector('#login'));
+        } else{
+            const cloned = this.authenticatedTag.content.cloneNode(true);
+            cloned.querySelector("#username").textContent = this.username;
+            this.shadow.append(cloned);
+            this.shadow.querySelector('.logout').addEventListener("click", async () => {
+                this.logout()});
+        }
     }
-    
+
+    async connectedCallback(){
+        await this.setup();
+    }
 }
 
 customElements.define('auth-element', AuthElem);

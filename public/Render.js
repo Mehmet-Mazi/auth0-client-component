@@ -1,6 +1,7 @@
 // Implementation failed. More R&D needed for implementation. TO-DO
 
 
+
 export class Component extends HTMLElement{
     constructor(){
         super()
@@ -8,8 +9,6 @@ export class Component extends HTMLElement{
         let self = this;
         this.state = new Proxy({}, {
             get(t, p, r){
-                console.log(t, p, r)
-
                 // self.view();
                 return Reflect.get(...arguments);
             },
@@ -25,7 +24,15 @@ export class Component extends HTMLElement{
     view(){
         console.log("Over ride this method");
     }
+
+    connectedCallback(){
+        console.log("connectedCallback")
+    }
+
 }
+
+customElements.define('render-elem', Component);
+
 
 export class Render extends HTMLElement{
     constructor(){
