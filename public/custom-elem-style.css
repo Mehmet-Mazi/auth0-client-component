@@ -33,7 +33,7 @@
     border-radius: 50%;
     /* background-color: black; */
     /* align-self: baseline; */
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 /* logged out view */
@@ -69,20 +69,22 @@ a{
     display: flex;
     align-items: center;
     height: 5em;
+    /* width: 10em; */
 }
 
 .user-options{
     /* border: 1px solid orange; */
     height: 100%;
+    width: 5em;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+    z-index: 10;
 }
 
 
 #username{
-    height: 25%;
+    /* height: 25%; */
     /* border: 1px solid green; */
     display: flex;
     align-items: center; 
@@ -97,15 +99,15 @@ a{
 
 .view-profile{
     display: flex;
-    width: max-content;
+    /* width: 7em; */
     align-items: center;
-    gap: 0.2em;
+    gap: 0.5em;
     cursor: pointer;
-    box-sizing: border-box;
 }
 
 .view-profile:hover{
-    border-bottom: 1px solid rgb(50, 110, 223);
+    border-bottom: 1px 0 solid rgb(50, 110, 223);
+    /* border-bottom-width: 5em; */
     /* border-radius: 0; */
 }
 

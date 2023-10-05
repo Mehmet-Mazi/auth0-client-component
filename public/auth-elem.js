@@ -12,9 +12,6 @@ export class AuthElem extends Component{
         this.authenticatedTag = document.querySelector('#authenticated');
         
         // receive a callback that says something the proxy can detect
-        
-        // this.setup()
-        this.profile;
     }
 
     test(){
@@ -24,9 +21,10 @@ export class AuthElem extends Component{
     
     async setup(){
         console.log('In setup')
+
         await this.configureClient();
         const isAuthenticated = await this.state.auth0Client.isAuthenticated();
-
+        console.log(isAuthenticated)
         if (isAuthenticated) {
             console.log("authenticated content")
             document.querySelector('#gated-content').classList.remove("hidden");
@@ -46,13 +44,17 @@ export class AuthElem extends Component{
             // Use replaceState to remove the querystring parameters and so that if the page refreshes for any reason it doesn't request to parse the state and code again
             window.history.replaceState({}, document.title, "/");
         }
-
-        this.profile = await this.getUserData();
-        console.log(this.profile)
+        
     }
         
     async getUserData(){
-        return await this.state.auth0Client.getUser();
+        // console.log(this.isAuthenticated())
+        return new Promise((resolve, reject) => {
+            document.addEventListener("processed", async () => {
+                if (await this.isAuthenticated()) resolve(this.state.auth0Client.getUser());
+                else reject("Not Logged in ")
+            });
+        })         
     }
     
     async isAuthenticated(){
@@ -125,7 +127,8 @@ export class AuthElem extends Component{
     }
 
     async connectedCallback(){
-        await this.setup();
+        await this.setup()
+        document.dispatchEvent(new Event("processed")) // Change the name for the event to be something more accurate
     }
 }
 
