@@ -24,7 +24,7 @@ export class AuthElem extends Component{
 
         await this.configureClient();
         const isAuthenticated = await this.state.auth0Client.isAuthenticated();
-        console.log(isAuthenticated)
+        console.log(isAuthenticated) // This is false when the page loades because the this.state.auth0client is null at this stage.
         if (isAuthenticated) {
             console.log("authenticated content")
             document.querySelector('#gated-content').classList.remove("hidden");
