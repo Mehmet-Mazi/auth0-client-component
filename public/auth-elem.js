@@ -64,7 +64,7 @@ export class AuthElem extends Component{
         return false;
     }
 
-    async fetchAuthConfig(authConfigURL='/auth_config.json'){
+    async fetchAuthConfig(authConfigURL='/auth_config'){
         const response = await fetch(authConfigURL);
         if (response.ok){
             return response.json();
@@ -80,7 +80,8 @@ export class AuthElem extends Component{
         // domain/application
         this.state.auth0Client = await createAuth0Client({
             domain: config.domain,
-            client_id: config.clientId
+            client_id: config.clientId,
+            audience: config.audience
         })
         console.log(this.state.auth0Client);
     }
