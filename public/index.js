@@ -23,9 +23,25 @@ async function callApi(){
 
 async function renderProfile(){
     const profile = await authElem.getUserData(); // Learn promises, try without await
+    // const response = await fetch("/api/balance/"+profile.nickname); Should not work because no authorisation paramaters
     authElem.shadow.querySelector('#username').textContent = profile.nickname;
     authElem.shadow.querySelector('img').src = profile.picture
     auth0Client = authElem.state.auth0Client;
+    const token = await auth0Client.getTokenSilently();
+    // The following will get someone elses balance which means the logged in user can access anyones account detail so figure out how to fix this
+    // const response = await fetch("/api/balance/test123", {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`
+    //     }
+    // });
+    const response = await fetch("/api/balance/"+profile.nickname, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    const responseData = await response.json();
+    console.log(responseData)
+    document.querySelector('#balance').textContent = responseData.balance.Balance;
 }
 
 async function init(){
