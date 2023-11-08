@@ -1,5 +1,3 @@
-import { AuthElem } from "./auth-elem.js";
-
 const authElem = document.querySelector('auth-element');
 let auth0Client;
 
@@ -41,13 +39,14 @@ async function renderProfile(){
     });
     const responseData = await response.json();
     console.log(responseData, authElem.state.auth0Client)
-    document.querySelector('#balance').textContent = responseData.balance.Balance;
+    // document.querySelector('#balance').textContent = responseData.balance.Balance;
 }
 
 async function init(){
     // Use the auth0client as the instantiation?
-    console.log("init");
-    await renderProfile();
+    console.log("init", authElem.shadowRoot.querySelector('[data-login]'));
+    if (authElem.authenticated) await renderProfile();
+
     document.querySelector('#btn-call-api').addEventListener('click', callApi);
 };
 

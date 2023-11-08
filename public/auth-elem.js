@@ -6,10 +6,10 @@ export class AuthElem extends Component{
     constructor(){
         super();
         this.state.auth0Client = null;
+        this.authenticated = false;
         this.shadow = this.attachShadow({mode:"open"}); // Sets and returns this.shadowRoot
         // this.useState = new state(this, this.auth0Client); // Pass this so  that we can call the render method in this class
-        this.unauthenticatedTag = document.querySelector('#unauthenticated');
-        this.authenticatedTag = document.querySelector('#authenticated');
+        
         // receive a callback that says something the proxy can detect
     }
 
@@ -34,9 +34,9 @@ export class AuthElem extends Component{
     
     async isAuthenticated(){
         if (this.state.auth0Client){
-            return await this.state.auth0Client.isAuthenticated();
+            this.authenticated = await this.state.auth0Client.isAuthenticated();
         }
-        return false;
+        return this.authenticated;
     }
 
     async fetchAuthConfig(authConfigURL='/auth_config'){
@@ -77,8 +77,10 @@ export class AuthElem extends Component{
         }
         
     async view(){
+        // This should become a defualt view
         if (!this.shadow) return null;
-        // console.log("Updated UI", this.shadow);
+        this.unauthenticatedTag = document.querySelector('#unauthenticated');
+        this.authenticatedTag = document.querySelector('#authenticated');
         this.shadow.textContent = '';
         const link = document.createElement('link');
         link.setAttribute('href', "custom-elem-style.css");
@@ -90,7 +92,7 @@ export class AuthElem extends Component{
         if (!(isAuthenticated)){
             const cloned = this.unauthenticatedTag.content.cloneNode(true);
             this.shadow.append(cloned);
-            this.shadow.querySelector('#login').addEventListener("click", async () => {
+            this.shadow.querySelector('[data-login]').addEventListener("click", async () => {
                 this.login()});
         } else{
             const cloned = this.authenticatedTag.content.cloneNode(true);
