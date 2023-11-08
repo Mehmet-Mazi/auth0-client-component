@@ -10,7 +10,6 @@ export class AuthElem extends Component{
         // this.useState = new state(this, this.auth0Client); // Pass this so  that we can call the render method in this class
         this.unauthenticatedTag = document.querySelector('#unauthenticated');
         this.authenticatedTag = document.querySelector('#authenticated');
-        
         // receive a callback that says something the proxy can detect
     }
 
@@ -18,43 +17,19 @@ export class AuthElem extends Component{
         console.log('test')
         console.log(this.testVar);
     }
-    
-    async setup(){
-        console.log('In setup')
-
-        await this.configureClient();
-        const isAuthenticated = await this.state.auth0Client.isAuthenticated();
-        console.log(isAuthenticated) // This is false when the page loades because the this.state.auth0client is null at this stage.
-        if (isAuthenticated) {
-            console.log("authenticated content")
-            document.querySelector('#gated-content').classList.remove("hidden");
-            document.querySelector('#ipt-access-token').textContent = await this.state.auth0Client.getTokenSilently();
-            document.querySelector('#ipt-user-profile').textContent = JSON.stringify(await this.state.auth0Client.getUser());
-        } else{
-            document.querySelector('#gated-content').classList.add('hidden');
-        }
-
-        const query = window.location.search;
-        if (query.includes("code=") && query.includes("state=")) {
-
-            // Process the login state
-            await this.state.auth0Client.handleRedirectCallback();
-
-            this.view()
-            // Use replaceState to remove the querystring parameters and so that if the page refreshes for any reason it doesn't request to parse the state and code again
-            window.history.replaceState({}, document.title, "/");
-        }
-        
-    }
         
     async getUserData(){
         // console.log(this.isAuthenticated())
-        return new Promise((resolve, reject) => {
-            document.addEventListener("processed", async () => {
-                if (await this.isAuthenticated()) resolve(this.state.auth0Client.getUser());
-                else reject("Not Logged in ")
-            });
-        })         
+        console.log("getUserData called");
+        if (await this.isAuthenticated()) return this.state.auth0Client.getUser();
+        else return "Not Logged in ";
+        // No Longer Needed
+        // return new Promise((resolve, reject) => {
+        //     document.addEventListener("processed", async () => {
+        //         if (await this.isAuthenticated()) resolve(this.state.auth0Client.getUser());
+        //         else reject("Not Logged in ")
+        //     });
+        // })         
     }
     
     async isAuthenticated(){
@@ -83,7 +58,7 @@ export class AuthElem extends Component{
             client_id: config.clientId,
             audience: config.audience
         })
-        console.log(this.state.auth0Client);
+        console.log("client configuration setup - ", this.state.auth0Client);
     }
 
     async login(){
@@ -117,7 +92,6 @@ export class AuthElem extends Component{
             this.shadow.append(cloned);
             this.shadow.querySelector('#login').addEventListener("click", async () => {
                 this.login()});
-            console.log(this.shadow.querySelector('#login'));
         } else{
             const cloned = this.authenticatedTag.content.cloneNode(true);
             cloned.querySelector("#username").textContent = this.username;
@@ -128,8 +102,29 @@ export class AuthElem extends Component{
     }
 
     async connectedCallback(){
-        await this.setup()
-        document.dispatchEvent(new Event("processed")) // Change the name for the event to be something more accurate
+        await this.configureClient();
+        const isAuthenticated = await this.state.auth0Client.isAuthenticated();
+        console.log(isAuthenticated) // This is false when the page initially loades because the this.state.auth0client is null at this stage.
+        if (isAuthenticated) {
+            console.log("authenticated content")
+            document.querySelector('#gated-content').classList.remove("hidden");
+            document.querySelector('#ipt-access-token').textContent = await this.state.auth0Client.getTokenSilently();
+            document.querySelector('#ipt-user-profile').textContent = JSON.stringify(await this.state.auth0Client.getUser());
+        } else{
+            document.querySelector('#gated-content').classList.add('hidden');
+        }
+
+        const query = window.location.search;
+        if (query.includes("code=") && query.includes("state=")) {
+
+            // Process the login state
+            await this.state.auth0Client.handleRedirectCallback();
+
+            this.view()
+            // Use replaceState to remove the querystring parameters and so that if the page refreshes for any reason it doesn't request to parse the state and code again
+            window.history.replaceState({}, document.title, "/");
+        }
+        this.dispatchEvent(new Event("load")) // Change the name for the event to be something more accurate
     }
 }
 

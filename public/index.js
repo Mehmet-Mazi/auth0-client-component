@@ -22,13 +22,13 @@ async function callApi(){
 }
 
 async function renderProfile(){
-    const profile = await authElem.getUserData(); // Learn promises, try without await
-    // const response = await fetch("/api/balance/"+profile.nickname); Should not work because no authorisation paramaters
+    console.log("RenderProfile")
+    const profile = await authElem.getUserData(); 
     authElem.shadow.querySelector('#username').textContent = profile.nickname;
     authElem.shadow.querySelector('img').src = profile.picture
     auth0Client = authElem.state.auth0Client;
     const token = await auth0Client.getTokenSilently();
-    // The following will get someone elses balance which means the logged in user can access anyones account detail so figure out how to fix this
+    // The following will get someone elses balance which means the logged in user can access anyones account detail so figure out how to fix this (server problem)
     // const response = await fetch("/api/balance/test123", {
     //     headers: {
     //         Authorization: `Bearer ${token}`
@@ -40,15 +40,15 @@ async function renderProfile(){
         }
     });
     const responseData = await response.json();
-    console.log(responseData)
+    console.log(responseData, authElem.state.auth0Client)
     document.querySelector('#balance').textContent = responseData.balance.Balance;
 }
 
 async function init(){
-    // authElem.testVar = 'This is a test var';
     // Use the auth0client as the instantiation?
-    renderProfile();
+    console.log("init");
+    await renderProfile();
     document.querySelector('#btn-call-api').addEventListener('click', callApi);
 };
 
-window.addEventListener('load', init);
+authElem.addEventListener('load', init);
