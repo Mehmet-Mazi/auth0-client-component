@@ -16,13 +16,13 @@ export class Component extends HTMLElement{
             set(obj, prop, newVal){
                 // console.log("In proxy set component");
                 Reflect.set(...arguments);
-                self.view();
+                self.render();
                 return true;
             }
         })
     }
 
-    view(){
+    render(){
         console.log("Over ride this method");
     }
 

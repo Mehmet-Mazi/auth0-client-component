@@ -14,7 +14,7 @@
 </head>
 <body>
     <nav>
-        <auth-element data-default-view></auth-element>
+        <auth-element></auth-element>
     </nav>
 
     <div class="hidden" id="gated-content">
@@ -42,10 +42,9 @@
     <button id="btn-call-api"> Call API</button>
 
     <pre id="api-call-result"></pre>
-
     <template id="unauthenticated">
         <div class="login-container">
-            <a id="login" class="center" data-login="true">Login</a>
+            <a id="login" class="center" data-login>Login</a>
             <div class="verticle-line"></div>
             <a href="#signup" id="sign-up" class="center">Sign Up</a>
         </div>
@@ -60,7 +59,7 @@
                     <div>
                         <a href="#">View Profile</a>
                         <a href="#">Subscriptions</a>
-                        <a href="#" class="logout">Logout</a>
+                        <a href="#" class="logout" data-logout>Logout</a>
                     </div>
                 </details>
             </div>

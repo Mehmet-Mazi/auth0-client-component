@@ -45,7 +45,7 @@ async function renderProfile(){
 async function init(){
     // Use the auth0client as the instantiation?
     console.log("init", authElem.shadowRoot.querySelector('[data-login]'));
-    if (authElem.authenticated) await renderProfile();
+    if (authElem.authenticated) await renderProfile(); // change this to call the authentication method as a variable is not reliable
 
     document.querySelector('#btn-call-api').addEventListener('click', callApi);
 };

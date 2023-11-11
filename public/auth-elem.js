@@ -9,7 +9,7 @@ export class AuthElem extends Component{
         this.authenticated = false;
         this.shadow = this.attachShadow({mode:"open"}); // Sets and returns this.shadowRoot
         // this.useState = new state(this, this.auth0Client); // Pass this so  that we can call the render method in this class
-        
+        console.log(this.hasAttribute("data-default-view"))
         // receive a callback that says something the proxy can detect
     }
 
@@ -56,7 +56,7 @@ export class AuthElem extends Component{
         this.state.auth0Client = await createAuth0Client({
             domain: config.domain,
             client_id: config.clientId,
-            audience: config.audience
+            audience: config.audience,
         })
         console.log("client configuration setup - ", this.state.auth0Client);
     }
@@ -76,29 +76,36 @@ export class AuthElem extends Component{
           });
         }
         
-    async view(){
-        // This should become a defualt view
+
+    async render(){
         if (!this.shadow) return null;
-        this.unauthenticatedTag = document.querySelector('#unauthenticated');
-        this.authenticatedTag = document.querySelector('#authenticated');
+        
+        this.unauthenticatedTemplate = document.querySelector('#unauthenticated');
+        this.authenticatedTemplate = document.querySelector('#authenticated');
+        
         this.shadow.textContent = '';
+        
         const link = document.createElement('link');
-        link.setAttribute('href', "custom-elem-style.css");
+        let stylesheet = "auth-element-style";
+        if (this.hasAttribute("data-stylesheet")){
+            stylesheet = this.getAttribute("data-stylesheet");
+        }
+        link.setAttribute('href', stylesheet+".css");
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
         this.shadow.append(link);
         
         const isAuthenticated = await this.isAuthenticated();
         if (!(isAuthenticated)){
-            const cloned = this.unauthenticatedTag.content.cloneNode(true);
+            const cloned = this.unauthenticatedTemplate.content.cloneNode(true);
             this.shadow.append(cloned);
             this.shadow.querySelector('[data-login]').addEventListener("click", async () => {
                 this.login()});
         } else{
-            const cloned = this.authenticatedTag.content.cloneNode(true);
-            cloned.querySelector("#username").textContent = this.username;
+            const cloned = this.authenticatedTemplate.content.cloneNode(true);
+            cloned.querySelector("#username").textContent = this.username; // optional
             this.shadow.append(cloned);
-            this.shadow.querySelector('.logout').addEventListener("click", async () => {
+            this.shadow.querySelector('[data-logout]').addEventListener("click", async () => {
                 this.logout()});
         }
     }
@@ -122,7 +129,7 @@ export class AuthElem extends Component{
             // Process the login state
             await this.state.auth0Client.handleRedirectCallback();
 
-            this.view()
+            this.render()
             // Use replaceState to remove the querystring parameters and so that if the page refreshes for any reason it doesn't request to parse the state and code again
             window.history.replaceState({}, document.title, "/");
         }
