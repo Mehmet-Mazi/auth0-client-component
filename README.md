@@ -2,7 +2,17 @@
 
 # Auth Element JavaScript Script
 
+[![npm version](https://badge.fury.io/js/auth0-client-component.svg)](https://badge.fury.io/js/auth0-client-component)
+
 This JavaScript script defines a custom web component named `AuthElem` for handling authentication using Auth0 for SPA. The primary objective of this web component is to quickly enable user authentication in your web applications. The script enables user authentication, sign-up, login, and logout functionalities.
+
+## Installation
+
+Install the Auth0 Client Component using npm:
+
+```bash
+npm install auth0-client-component
+```
 
 ## Usage
 
