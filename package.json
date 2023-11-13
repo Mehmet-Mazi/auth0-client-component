@@ -1,5 +1,5 @@
 {
-  "name": "auth-custom-elem",
+  "name": "auth0-client-component",
   "version": "0.0.0-beta.1",
   "main": "auth-element.js",
   "type": "module",
