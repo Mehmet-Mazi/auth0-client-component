@@ -1,23 +1,23 @@
 {
   "name": "auth-custom-elem",
-  "version": "1.0.0",
-  "main": "auth-elem.js",
+  "version": "0.0.0-beta.1",
+  "main": "auth-element.js",
   "type": "module",
   "scripts": {
     "start": "node server/srv.js",
     "dev": "nodemon server/srv.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "minifyJS": "grunt --gruntfile Gruntfile.cjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/UP2002348/auth0-custom-element.git"
+    "url": "git+https://github.com/Bigmemzy/auth0-client-component.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/UP2002348/auth0-custom-element/issues"
+    "url": "https://github.com/Bigmemzy/auth0-client-componentissues"
   },
-  "homepage": "https://github.com/UP2002348/auth0-custom-element#readme",
+  "homepage": "https://github.com/Bigmemzy/auth0-client-component#readme",
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.1.2",
     "express": "^4.18.2",
@@ -27,6 +27,8 @@
   "keywords": [],
   "description": "",
   "devDependencies": {
+    "grunt": "^1.6.1",
+    "grunt-contrib-uglify": "^5.2.2",
     "nodemon": "^3.0.1"
   }
 }
