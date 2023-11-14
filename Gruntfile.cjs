@@ -3,11 +3,13 @@ module.exports = function (grunt) {
 	// define source files and their destinations
 	uglify: {
 	  files: {
-		src: "src/*.js", 
-		dest: "dist/", 
 		expand: true, 
 		flatten: true, 
 		ext: ".min.js",
+		build: {
+			src: 'src/*.js',
+			dest: 'dist/'
+		  }
 	  },
 	},
   });
