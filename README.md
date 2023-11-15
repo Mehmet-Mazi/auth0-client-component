@@ -1,6 +1,4 @@
-**README.md**
-
-# Auth Element JavaScript Script
+# Auth Element
 
 [![npm version](https://badge.fury.io/js/auth0-client-component.svg)](https://badge.fury.io/js/auth0-client-component)
 
