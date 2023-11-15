@@ -20,7 +20,8 @@ class AuthElem extends AutoRender{
     }
 
     async fetchAuthConfig(){
-        if (this.hasAttribute(data-auth-config)) authConfigURL = this.getAttribute(data-auth-config);
+        let authConfigURL = '/auth_config';
+        if (this.hasAttribute("data-auth-config")) authConfigURL = this.getAttribute("data-auth-config");
         const response = await fetch(authConfigURL);
         if (response.ok){
             return response.json();
@@ -49,14 +50,14 @@ class AuthElem extends AutoRender{
     async signUp(){
         let authParams = {
             screen_hint: 'signup',
-            redirect_uri: this.getAttribute("data-login-redirect")
+            redirect_uri: this.hasAttribute("data-login-redirect") ? this.getAttribute("data-login-redirect") : window.location.origin
     }
     await this.state.auth0Client.loginWithRedirect(authParams);
     }
     
     async login(){
         let authParams = {
-                redirect_uri: this.getAttribute("data-login-redirect")
+                redirect_uri: this.hasAttribute("data-login-redirect") ? this.getAttribute("data-login-redirect") : window.location.origin
         }
         await this.state.auth0Client.loginWithRedirect(authParams);
     }
@@ -64,7 +65,7 @@ class AuthElem extends AutoRender{
     async logout(){
         this.state.auth0Client.logout({
             logoutParams: {
-              returnTo: this.getAttribute("data-logout-redirect")
+              returnTo: this.hasAttribute("data-login-redirect") ? this.getAttribute("data-login-redirect") : window.location.origin
             }
           });
         }

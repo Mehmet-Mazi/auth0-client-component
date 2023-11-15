@@ -16,4 +16,4 @@ export class AutoRender extends HTMLElement{
     }
 }
 
-customElements.define('render-elem', Component);
+customElements.define('render-elem', AutoRender);
