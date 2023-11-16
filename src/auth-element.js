@@ -21,7 +21,7 @@ class AuthElem extends AutoRender{
 
     async fetchAuthConfig(){
         let authConfigURL = '/auth_config';
-        if (this.hasAttribute("data-auth-config")) authConfigURL = this.getAttribute("data-auth-config");
+        if (this.hasAttribute("data-auth-config-url")) authConfigURL = this.getAttribute("data-auth-config-url");
         const response = await fetch(authConfigURL);
         if (response.ok){
             return response.json();
@@ -29,10 +29,16 @@ class AuthElem extends AutoRender{
             throw response;
         }
     }
-
+    
     async configureClient(){
         try {
-            const config = await this.fetchAuthConfig();
+            let config;
+            if (this.hasAttribute("data-auth-config-url")) config = await this.fetchAuthConfig();
+            else if (this.hasAttribute("data-domain") && this.hasAttribute("data-client-id") && this.hasAttribute("data-audience")) config = {domain: this.getAttribute("data-domain"), clientId: this.getAttribute("data-client-id"), audience: this.getAttribute("data-audience")};
+            else {
+                throw "Must have auth config information";
+            }
+            console.log(config)
             // Initializes the auth0 sdk with the items downloaded from the server
             // This will allow us to create a communication channel with the auth0 
             // domain/application
@@ -43,6 +49,7 @@ class AuthElem extends AutoRender{
             })
             return [true, null];
         } catch (error) {
+            console.log("error")
             return [false, error];
         }
     }
@@ -91,7 +98,7 @@ class AuthElem extends AutoRender{
             
             const isAuthenticated = await this.isAuthenticated();
             if (!(isAuthenticated)){
-                const cloned = this.unauthenticatedTemplate.content?.cloneNode(true);
+                const cloned = this.unauthenticatedTemplate.content.cloneNode(true);
                 this.shadow.append(cloned);
                 this.shadow.querySelector('[data-login]').addEventListener("click", async () => {
                     this.login()});
@@ -112,6 +119,7 @@ class AuthElem extends AutoRender{
         const success = await this.configureClient();
 
         if (!success[0]){
+            console.log(success[1], "error")
             return `failed to connect to server: ${success[1]}`
         }
 

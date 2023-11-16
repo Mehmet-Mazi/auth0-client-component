@@ -48,6 +48,23 @@ To use this script, follow these steps:
    <auth-element data-stylesheet="path/to/custom-stylesheet.css"></auth-element>
    ```
 
+## Attribute Options
+
+### `option 1`
+
+- **`data-domain`**: Specify domain of your Auth0 application.
+- **`data-client-id()`**: Specify client id to your intended Auth0 application.
+- **`data-audience`**: ...
+
+### `option 2`
+
+- **`data-auth-config-url`**: Specify the URL to fetch the auth0 config data.
+
+*One course of action must be adhered to.*
+
+### `custom styling`
+- **`data-stylesheet`**: The link to the css file to customise the auth-element component 
+
 ## Methods
 
 - **`getUserData()`**: Retrieves user data if authenticated.
@@ -94,7 +111,7 @@ To use this script, follow these steps:
     </template>
 
     <!-- Auth Element Instance -->
-    <auth-element data-stylesheet="path/to/custom-stylesheet.css"></auth-element>
+    <auth-element data-stylesheet="path/to/custom-stylesheet.css" data-auth-config-url="/auth-config.json"></auth-element>
 
 </body>
 </html>
